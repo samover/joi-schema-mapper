@@ -159,7 +159,6 @@ describe('#Mapper joi to json object', () => {
             firstname: data.firstname,
             lastname: data.lastname,
             modifiedAt: data.updatedAt,
-            processedBy: 'Amazon',
         });
     });
 });
