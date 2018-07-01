@@ -4,17 +4,29 @@
   "description": "Maps a json-object using a joi-schema",
   "main": "index.js",
   "scripts": {
-    "test": "npm test"
+    "build": "tsc",
+    "test": "nyc mocha -r ts-node/register src/**/test.ts"
   },
   "author": "samover@protonmail.com",
   "license": "ISC",
   "devDependencies": {
+    "@types/camelcase-keys": "^4.0.0",
+    "@types/chai": "^4.1.4",
+    "@types/joi": "^13.3.0",
+    "@types/lodash.set": "^4.3.3",
+    "@types/mocha": "^5.2.4",
+    "@types/node": "^10.5.1",
     "chai": "^4.1.2",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^13.0.0",
     "eslint-plugin-import": "^2.12.0",
     "faker": "^4.1.0",
     "mocha": "^5.2.0",
+    "mocha-typescript": "^1.1.16",
+    "source-map-support": "^0.5.6",
+    "ts-node": "^7.0.0",
+    "tslint": "^5.10.0",
+    "typescript": "^2.9.2",
     "uuid": "^3.2.1"
   },
   "dependencies": {
