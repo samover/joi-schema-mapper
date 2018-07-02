@@ -2,7 +2,7 @@
   "name": "joi-schema-mapper",
   "version": "1.1.0",
   "description": "Maps a json-object using a joi-schema",
-  "main": "index.js",
+  "main": "built/index.js",
   "scripts": {
     "build": "tsc",
     "test": "nyc mocha -r ts-node/register src/**/test.ts"
