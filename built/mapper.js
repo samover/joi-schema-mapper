@@ -62,4 +62,4 @@ class Mapper {
     }
 }
 exports.default = Mapper;
-//# sourceMappingURL=mapper.js.map
+//# sourceMappingURL=Mapper.js.map
