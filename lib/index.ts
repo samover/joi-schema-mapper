@@ -1,3 +1,5 @@
-import Mapper from "./Mapper";
+import { Mapper } from "./Mapper";
+import { MapperError } from "./MapperError";
 
-export default Mapper;
+exports.Mapper = Mapper;
+exports.MapperError = MapperError;

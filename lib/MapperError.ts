@@ -1,1 +1,1 @@
-export default class MapperError extends Error {}
+export class MapperError extends Error {}

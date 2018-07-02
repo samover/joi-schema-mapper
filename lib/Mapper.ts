@@ -1,7 +1,7 @@
 import camelcaseKeys = require("camelcase-keys");
 import { Schema, validate, ValidationResult } from "joi";
 import set = require("lodash.set");
-import MapperError from "./MapperError";
+import { MapperError } from "./MapperError";
 
 const convertToCamelCase = (data: object): object => camelcaseKeys(data, { deep: true });
 const clone = (data: object): object => JSON.parse(JSON.stringify(data));
@@ -14,7 +14,7 @@ interface IMapperOptions {
     abortEarly?: boolean;
 }
 
-export default class Mapper {
+export class Mapper {
     private schema: Schema;
     private transformFns: Map<string, (data: any) => any> = new Map();
     private  options: IMapperOptions = {
