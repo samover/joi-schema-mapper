@@ -42,13 +42,13 @@ export class Mapper {
         this.transformFns.forEach((fn, key) => {
             set(mappedData, key, fn(mappedData));
         });
-        this.postProcess(originalData, mappedData);
         const validationResult: ValidationResult<object> = this.parse(mappedData);
 
         if (this.options.throwOnError && validationResult.error) {
             throw new MapperError(validationResult.error.message);
         }
 
+        this.postProcess(originalData, validationResult.value);
         return validationResult.value;
     }
 

@@ -168,6 +168,7 @@ class MapperTest {
             id: data.id,
             lastname: data.lastname,
             modifiedAt: data.updatedAt,
+            processedBy: "Amazon",
         });
     }
 
@@ -187,7 +188,7 @@ class MapperTest {
             mapper.map(data);
             throw new Error("test failed");
         } catch (e) {
-            console.error(e);
+          expect(e.message).to.have.string("firstname");
         }
     }
 }
