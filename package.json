@@ -1,6 +1,6 @@
 {
   "name": "joi-schema-mapper",
-  "version": "1.1.4",
+  "version": "1.2.0",
   "description": "Maps a json-object using a joi-schema",
   "main": "built/index.js",
   "scripts": {
