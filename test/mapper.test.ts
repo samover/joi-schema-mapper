@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import * as joi from "joi";
-import { slow, suite, test, timeout } from "mocha-typescript";
+import { slow, suite, test, timeout, only } from "mocha-typescript";
 import { Mapper } from "../lib/Mapper";
 
 @suite
@@ -24,22 +24,27 @@ class MapperTest {
 
     @test
     public mapNestedObjectTest() {
-        const schema = joi.object().keys({
+        const schema = joi.object({
             name: joi.object({
                 lastname: joi.string(),
             }),
-        });
-        const mapper = new Mapper(schema, { camelCase: true });
+            numbers: joi.array().items(joi.number()),
+        }).required();
+        const mapper = new Mapper(schema, {});
         const data = {
             id: 1,
             name: {
                 firstname: "John",
                 lastname: "Lennon",
             },
+          numbers: [1, 3],
         };
         const serializedData = mapper.map(data);
         expect(serializedData).to.eql({
-            name: { lastname: data.name.lastname },
+            name: {
+              lastname: data.name.lastname,
+            },
+            numbers: data.numbers,
         });
     }
 
@@ -169,6 +174,32 @@ class MapperTest {
             lastname: data.lastname,
             modifiedAt: data.updatedAt,
             processedBy: "Amazon",
+        });
+    }
+
+    @test
+    public allowMultiplePreProcessors() {
+        const data = {
+            createdAt: new Date(Date.now()),
+            firstname: "John",
+            id: 1,
+            lastname: "Lennon",
+            updatedAt: new Date(Date.now()),
+        };
+        const schema = joi.object().keys({
+            id: joi.string().uuid(),
+            modifiedAt: joi.date().iso(),
+            name: joi.string(),
+        });
+        const mapper = new Mapper(schema, { camelCase: true });
+        mapper.setPreProcessor((d) => { d.modifiedAt = d.updatedAt; });
+        mapper.setPreProcessor((d) => { d.name = `${d.firstname} ${d.lastname}`; });
+
+        const serializedData = mapper.map(data);
+        expect(serializedData).to.eql({
+            id: data.id,
+            modifiedAt: data.updatedAt,
+            name: `${data.firstname} ${data.lastname}`,
         });
     }
 
