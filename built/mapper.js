@@ -17,6 +17,8 @@ class Mapper {
             throwOnError: false,
         };
         this.schema = schema;
+        this.preProcess = new Set();
+        this.postProcess = new Set();
         for (const option in options) {
             this.options[option] = options[option];
         }
@@ -27,7 +29,9 @@ class Mapper {
         if (this.options.camelCase) {
             mappedData = convertToCamelCase(mappedData);
         }
-        this.preProcess(mappedData);
+        this.preProcess.forEach((fn) => {
+            fn(mappedData);
+        });
         this.transformFns.forEach((fn, key) => {
             set(mappedData, key, fn(mappedData));
         });
@@ -35,17 +39,19 @@ class Mapper {
         if (this.options.throwOnError && validationResult.error) {
             throw new MapperError_1.MapperError(validationResult.error.message);
         }
-        this.postProcess(originalData, validationResult.value);
+        this.postProcess.forEach((fn) => {
+            fn(originalData, validationResult.value);
+        });
         return validationResult.value;
     }
     transform(propName, transformFn) {
         this.transformFns.set(propName, transformFn);
     }
     setPreProcessor(fn) {
-        this.preProcess = fn;
+        this.preProcess.add(fn);
     }
     setPostProcessor(fn) {
-        this.postProcess = fn;
+        this.postProcess.add(fn);
     }
     parse(data) {
         return joi_1.validate(data, this.schema, {
@@ -53,12 +59,6 @@ class Mapper {
             allowUnknown: this.options.allowUnknown,
             stripUnknown: this.options.stripUnknown,
         });
-    }
-    preProcess(data) {
-        return;
-    }
-    postProcess(originalData, mappedData) {
-        return;
     }
 }
 exports.Mapper = Mapper;
